@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to control Div attribute</title>
+    <style>
+        ul{
+            list-style: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        li{
+            display: inline-block;
+        }
+        #target{
+            width: 50px;
+            height: 50px;
+            background-color: black;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><button onclick="makeWider()">Wider</button></li>
+        <li><button onclick="makeHigher()">Higher</button></li>
+        <li><button onclick="changeColor()">Change Color</button></li>
+        <li><button onclick="hide()">Toggle Hide</button></li>
+        <li><button onclick="reset()">Reset</button></li>
+    </ul>
+    <div id="target"></div>
+    <script>
+        function makeWider(){
+            var width = document.getElementById("target").offsetWidth;
+            document.getElementById("target").style.width = (width + 50)+"px";
+        }
+        function makeHigher(){
+            var height = document.getElementById("target").offsetHeight;
+            document.getElementById("target").style.height = (height + 50)+"px";
+        }
+        function changeColor(){
+            var red = Math.floor(Math.random()*256);
+            var green = Math.floor(Math.random()*256);
+            var blue = Math.floor(Math.random()*256)
+            document.getElementById("target").style.backgroundColor = "rgb("+red+","+green+","+blue+")";
+        }
+
+        function hide(){
+            var hidden = document.getElementById("target").style.visibility;
+            if (hidden === "hidden"){
+                document.getElementById("target").style.visibility = "visible";
+            }else{
+                document.getElementById("target").style.visibility = "hidden";
+            }
+        }
+
+        function reset(){
+            var el_style = document.getElementById("target").style;
+            el_style.backgroundColor = "black";
+            el_style.width = "50px";
+            el_style.height = "50px";
+            el_style.visibility = "visible";
+        }
+
+    </script>
+</body>
+</html>

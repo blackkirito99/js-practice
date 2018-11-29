@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to use mouseover to change style of div</title>
+    <style>
+        .target{
+            box-sizing: border-box;
+            margin: 0 auto;
+            width: 200px;
+            height: 200px;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: 10px solid black;
+        }
+        /* css apporach
+        .target:hover{
+            border: 10px solid red;
+            color: red;
+            background-color: #ccc;
+        }*/
+        .target.hover{
+            border: 10px solid red;
+            color: red;
+            background-color: #ccc;
+        }
+
+    </style>
+</head>
+<body>
+    <div class = "target">
+        move mouse here to change style, left to recover
+    </div>
+    <script>
+        window.onload = () => {
+            var target =  document.getElementsByClassName('target')[0];
+            target.addEventListener('mouseover', ()=> {
+                target.classList.add('hover');
+            })
+            target.addEventListener('mouseout', ()=> {
+                target.classList.remove('hover');
+            })
+        }
+    </script>
+</body>
+</html>

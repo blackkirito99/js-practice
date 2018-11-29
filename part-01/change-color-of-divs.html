@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to change div using loop</title>
+    <style>
+        button{
+            display: block;
+            margin: 0 auto 10px;
+        }
+        .row{
+            padding: 0;
+            margin: 0;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .row .target{
+            width: 32%;
+            padding-top: 32%;
+            background-color: black;
+            display: inline-block;
+            float: left;
+        }
+        .target:not(:last-child){
+            margin-right: 2%;
+        }
+    </style>
+</head>
+<body>
+    <button>Change squares to red</button>
+    <div class="row">
+        <div class="target"></div>
+        <div class="target"></div>
+        <div class="target"></div>
+    </div>
+    <script>
+        window.onload = () => {
+            const divs = document.getElementsByClassName('target');
+            document.getElementsByTagName('button')[0].addEventListener('click', () => {
+                for(let div of divs){
+                    console.log(div)
+                    div.style.backgroundColor = "red";
+                }
+            })
+        }
+    </script>
+</body>
+</html>

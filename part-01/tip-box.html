@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to create tooltip</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrapper{
+            width: 200px;
+            margin: 0 auto;
+        }
+        label{
+            margin: 0 auto;
+        }
+
+        .tooltip{
+            padding: 10px;
+            background-color: rgb(244, 230, 36);
+            border: 1px solid orange;
+            display: none;
+        }
+        /* css approach
+        label:hover + .tooltip{
+            display: block;
+        }*/
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <label><input type="checkbox" name="" id="checkbox"> I have read the terms</label>
+        <div class = "tooltip"><p>Hi, there. This is a tool tip! Wooooow</p></div>
+    </div>
+    <script>
+        window.onload = () => {
+            const hover_target = document.getElementById('checkbox').parentElement;
+            const tooltip = document.getElementsByClassName('tooltip')[0];
+            console.log(hover_target)
+            hover_target.addEventListener('mouseover', () => {
+                tooltip.style.display = "block";
+            })
+            hover_target.addEventListener('mouseout', () => {
+                tooltip.style.display = "none";
+            })
+        }
+    </script>
+</body>
+</html>

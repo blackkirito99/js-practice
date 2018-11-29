@@ -29,7 +29,14 @@
         <li><button onclick="changeColor()">Change Color</button></li>
         <li><button onclick="hide()">Toggle Hide</button></li>
         <li><button onclick="reset()">Reset</button></li>
-    </ul>
+    </ul> 
+    <!-- <ul>
+        <li><button>Wider</button></li>
+        <li><button>Higher</button></li>
+        <li><button>Change Color</button></li>
+        <li><button>Toggle Hide</button></li>
+        <li><button>Reset</button></li>
+    </ul> -->
     <div id="target"></div>
     <script>
         function makeWider(){
@@ -63,6 +70,26 @@
             el_style.height = "50px";
             el_style.visibility = "visible";
         }
+/*
+       function changeStyle(elem, attr, value){
+            console.log(elem, attr,value)
+            elem.style[attr] = value;  
+        }
+
+        window.onload = function(){
+            var btns = document.getElementsByTagName("button");
+            var att = ['width', 'height', 'background-color', 'display', 'display'];
+            var val = ['200px', '200px', 'red', 'none', 'block'];
+            var target = document.getElementById("target")
+            for (var i = 0; i < btns.length; i++){
+                btns[i].index = i;
+                btns[i].onclick = function(){
+                    this.index == btns.length - 1;
+                    target.style.cssText = "";
+                    changeStyle(target, att[this.index], val[this.index]);
+                }
+            }
+        }*/
 
     </script>
 </body>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to change theme of website</title>
+    <style>
+        html{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            width: 650px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        body.green{
+            background-color:#A3C5A8;
+        }
+
+        body.red{
+            background-color:#fdd;
+        }
+
+        body.black{
+            background-color:#ccc;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        ul li {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        ul#themes li{
+            height: 6px;
+            width: 6px;
+        }
+
+        ul#themes li.active{
+            background-color: white;
+        }
+
+        #red{
+            border: 4px solid red;
+            background-color: red;
+        }
+        #green{
+            border: 4px solid green;
+            background-color: green;
+        }
+        #black{
+            border: 4px solid black;
+            background-color: black;
+        }
+
+        #nav li{
+            height: 1em;
+            padding: 4px;
+            margin: 0;
+            width: 80px;
+            border: 1px solid white;
+            border-right: none;
+            float: left;
+            text-align: center;
+            color: white;
+        }
+        #nav li:last-child{
+            border-right: 1px solid white;
+        }
+
+        #nav li.red{
+            background-color: red;
+        }
+
+        #nav li.green{
+            background-color:green;
+        }
+
+        #nav li.black{
+            background-color: black;
+        }
+    </style>
+</head>
+<body class = "green">
+    <ul id = "themes">
+        <li id = "red"></li>
+        <li id = "green" class = "active"></li>
+        <li id = "black"></li>
+    </ul>
+    <ul id="nav">
+        <li class = "green">News</li>
+        <li class = "green">Entertain</li>
+        <li class = "green">Sports </li>
+        <li class = "green">Movies</li>
+        <li class = "green">Music</li>
+        <li class = "green">Travel</li>
+    </ul>
+    <script>
+        window.onload = function(){
+            var redBtn = document.getElementById('red');
+            var greenBtn = document.getElementById('green');
+            var blackBtn = document.getElementById('black');
+            var navs = document.getElementById('nav').getElementsByTagName('li');
+
+            redBtn.onclick = function(){
+                document.getElementsByTagName('body')[0].className = "red";
+                Array.from(navs).forEach(function(el){
+                    el.className = "red";
+                })
+                redBtn.classList.add("active");
+                greenBtn.classList.remove("active");
+                blackBtn.classList.remove("active");
+            }
+
+            greenBtn.onclick = function(){
+                document.getElementsByTagName('body')[0].className = "green";
+                Array.from(navs).forEach(function(el){
+                    el.className = "green";
+                })
+                redBtn.classList.remove("active");
+                greenBtn.classList.add("active");
+                blackBtn.classList.remove("active");
+            }
+
+            blackBtn.onclick = function(){
+                document.getElementsByTagName('body')[0].className = "black";
+                Array.from(navs).forEach(function(el){
+                    el.className = "black";
+                })
+                redBtn.classList.remove("active");
+                greenBtn.classList.remove("active");
+                blackBtn.classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make a popup</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    button{
+        display: block;
+        margin: 0 auto;
+        padding: 4px;
+    }
+
+    body{
+        position: relative;
+    }
+
+    .popup{
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color:rgba(51, 51, 51, 0.529);
+        display: block;
+        z-index: 100;
+        display: none;
+    }
+
+    .popup__window{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        height: 200px;
+        background-color: white;
+        box-shadow: 1rem 2rem 3rem rgba(0, 0, 0, 0.173);
+    }
+    .popup__window p{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+    }
+    .popup__close{
+        float: right;
+        margin: 10px;
+    }
+
+    .popup__close span{
+        padding: 2px;
+        border: 1px solid red;
+        cursor: pointer;
+        padding: 0 4px;
+        color: red;
+    }
+</style>
+<body>
+    <button>
+        Show popup window!
+    </button>
+
+    <div class="popup">
+        <div class="popup__window">
+            <div class="popup__close"><span>x</span></div>
+            <p>I am a popup!</p>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            var btn = document.getElementsByTagName('button')[0];
+            var popup = document.getElementsByClassName('popup')[0];
+            var close_btn = document.querySelector('.popup__close')
+            btn.addEventListener('click', () => {
+                popup.style.display = 'block';
+            });
+
+            close_btn.addEventListener('click', () => {
+                popup.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>

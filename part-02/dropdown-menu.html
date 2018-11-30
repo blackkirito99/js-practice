@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to create dropdown menu</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrapper{
+            width: 100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        button{
+            border-radius: 2px;
+            font-size: 16px;
+            padding: 2px;
+        }
+
+        .dropdown-menu{
+            position: absolute;
+            top: 28px;
+            left: 0;
+            display: none;
+        }
+        .dropdown-menu ul{
+            list-style: none;
+        }
+
+        .dropdown-menu ul li {
+            color: #00c;
+            width: 80%;
+            float: left;
+            display: inline-block;
+            border-left: 1px solid #00c;
+            border-right: 1px solid #00c;
+            padding: 6px;
+        }
+
+        .dropdown-menu ul li:first-child {
+            border-top: 1px solid #00c;
+        }
+
+        .close {
+            border: 1px solid #00c;
+        }
+
+        .dropdown-menu ul li:hover {
+            background-color:#d9e1f6;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <button>Click me</button>
+        <div class="dropdown-menu">
+            <ul>
+                <li>Option 1</li>
+                <li>Option 2</li>
+                <li class = 'close'>Close</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            var btn = document.getElementsByTagName('button')[0];
+            var close_tab = document.getElementsByClassName('close')[0];
+            var dropdown = document.getElementsByClassName('dropdown-menu')[0];
+            [btn, close_tab].forEach(el => {
+                el.addEventListener('click', () => {
+                    var current = dropdown.style.display
+                    dropdown.style.display = current === 'none' ? 'block' : 'none';
+                });
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .wrapper{
+            width: 300px;
+            margin: 20px auto 0;
+            border: 1px solid black;
+        }
+        .wrapper h2{
+            display: block;
+            background: #ced3d7 url(img/ico.gif) 280px -12px no-repeat;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .wrapper h2.open{
+            background-position: 280px 15px;
+        }
+        ul{
+            list-style: none;
+            display: none;
+        }
+
+        ul.open{
+            display: block;
+        }
+
+        ul li {
+            background-color: #eee;
+            padding: 10px 10px;
+            cursor: pointer;
+        }
+        ul li:hover{
+            background-color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2 class = "open">Play list...</h2>
+        <ul>
+            <li>a-aaa</li>
+            <li>b-bbb</li>
+            <li>c-ccc</li>
+            <li>d-ddd</li>
+            <li>e-eee</li>
+            <li>f-fff</li>
+        </ul>
+    </div>
+    <script>
+        window.onload = () => {
+            const tab = document.getElementsByTagName('h2')[0];
+            const content = document.getElementsByTagName('ul')[0];
+            tab.addEventListener('click', () => {
+                content.classList.toggle('open');
+                tab.classList.toggle('open');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make select all and reverse select</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .checkbox-group{
+        width: 260px;
+        margin: 0 auto;
+        border: 1px solid black;
+        border-radius: 3px;
+        padding: 10px;
+    }
+
+    ul{
+        list-style: none;
+    }
+
+    input, p{
+        display: inline-block;
+        padding: 10px;
+    }
+
+    .reverse{
+        color: blue;
+        cursor: pointer;
+    }
+
+    .reverse:hover{
+        color: red;
+    }
+
+    .instruction{
+        display: block;
+        text-align: center;
+    }
+
+</style>
+<body>
+    <div class="checkbox-group">
+        <input type="checkbox" class= "checkbox--all">
+        <p class="description">Select all</p>
+        <p class="reverse">Select reverse</p>
+        <hr>
+        <ul class = "checkboxes">
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 1</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 2</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 3</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 4</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 5</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 6</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 7</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 8</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 9</p>
+            </li>
+            <li class="checkbox">
+                <input type="checkbox">
+                <p>Option 10</p>
+            </li>
+        </ul>
+    </div>
+    <p class = "instruction" >1. Select all, deselect all; 2. update select all box when select one check box</p>
+
+    <script>
+        window.onload = () => {
+            const checkboxes = document.querySelectorAll('.checkbox input');
+            const select_all_checkbox = document.getElementsByClassName('checkbox--all')[0];
+            const reverse_select_checkbox = document.getElementsByClassName('reverse')[0];
+            const description = document.getElementsByClassName('description')[0];
+            let states = []
+            for(let i = 0; i < checkboxes.length; i++){
+                states.push(false);
+            }
+
+            const update_select_all_checkbox = () => {
+                const allchecked = states.reduce((prev, cur) => cur && prev, true);
+                select_all_checkbox.checked = allchecked;
+                description.textContent = allchecked  ? "Deselect all" :  "Select all";
+            }
+            select_all_checkbox.addEventListener('change', () => {
+                const checked = select_all_checkbox.checked;
+                Array.from(checkboxes).forEach( el => {
+                    el.checked = checked;
+                })
+                states = states.map( el => checked);
+                update_select_all_checkbox();
+            })
+
+            for(let i = 0; i < checkboxes.length; i++){
+                //checkboxes[i].index = i;
+                checkboxes[i].addEventListener('change', () => {
+                    states[i] = !states[i];
+                    update_select_all_checkbox();
+                })
+            }
+
+            reverse_select_checkbox.addEventListener('click', () => {
+                states = states.map(el => !el);
+                for(let i = 0; i < states.length; i++){
+                    checkboxes[i].checked = states[i];
+                }
+                update_select_all_checkbox();
+            })
+        }
+    </script>
+</body>
+</html>

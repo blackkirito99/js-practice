@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to change the pcitures to see detail</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            position: relative;
+            background-image: linear-gradient(to right bottom, rgb(89, 50, 232), rgb(215, 20, 225));
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .container{
+            margin: 0 auto;
+            border: 1px solid #666;
+            background-color: #fff;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(5, 100px);
+            grid-gap: 10px;
+            padding: 10px;
+        }
+        .container div {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+        }
+
+        .container img{
+            width: 100%;
+        }
+
+        .container .current{
+            grid-column: 1/4;
+            grid-row: 1/4;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class = "current"><img src="./img/pic-1.png" alt="pic current"></div>
+        <div><img src="img/pic-1.png" alt="pic 1"></div>
+        <div><img src="img/pic-2.png" alt="pic 2"></div>
+        <div><img src="img/pic-3.png" alt="pic 3"></div>
+        <div><img src="img/pic-4.png" alt="pic 4"></div>
+        <div><img src="img/pic-5.png" alt="pic 5"></div>
+        <div><img src="img/pic-6.png" alt="pic 6"></div>
+        <div><img src="img/pic-7.png" alt="pic 7"></div>
+        <div><img src="img/pic-8.png" alt="pic 8"></div>
+        <div><img src="img/pic-9.png" alt="pic 9"></div>
+        <div><img src="img/pic-10.png" alt="pic 10"></div>
+        <div><img src="img/pic-11.png" alt="pic 11"></div>
+    </div>
+    <script>
+        // unsolved, loading img?
+        window.onload = () => {
+            const imgs = document.querySelectorAll('.container div');
+            const current_img = document.getElementsByClassName('current')[0].getElementsByTagName('img')[0];
+            Array.from(imgs).forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    current_img['src'] = el.getElementsByTagName('img')[0]['src'];
+                });
+            })
+        }
+    </script>
+</body>
+</html>

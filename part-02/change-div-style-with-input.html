@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to calculate sum from input</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .form{
+            width: 400px;
+            margin: 0 auto 10px;
+        }
+
+        .form__group{
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        #name, #value{
+            font-size: 16px;
+        }
+        button {
+            padding: 5px;
+            margin: 3px;
+            font-size: 16px;
+        }
+        .target{
+            color: white;
+            background-color: black;
+            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <div class="form__group">
+            <label for="name">Property Name:</label>
+            <input type="text" id = "name" value =  "background">
+        </div>
+        <div class="form__group ">
+            <label for="value">Property Value:</label>
+            <input type="text" id = "value" value = "blue">
+        </div>
+        <button class = "ok">OK</button>
+        <button class = "reset">result</button>
+    </div>
+    <div class="target">
+        <p>
+            Enter property name and value in above inputs, and click 'OK' to see the effect, use 'Reset' to reset to initial state
+        </p>
+    </div>
+
+    <script>
+        window.onload = () => {
+            const name_input = document.getElementById('name');
+            const value_input = document.getElementById('value');
+            const ok_btn = document.getElementsByClassName('ok')[0];
+            const reset_btn = document.getElementsByClassName('reset')[0];
+            const target = document.getElementsByClassName('target')[0];
+
+            ok_btn.addEventListener('click', () => {
+                target.style[name_input.value] = value_input.value;
+            })
+
+            reset_btn.addEventListener('click', () => {
+                target.removeAttribute('style');
+            })
+            
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice for simple calender</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            text-align: center;
+        }
+
+        .wrapper{
+            margin: 10px auto 0;
+            display: inline-block;
+        }
+        .container{
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(3, 80px);
+            grid-gap: 15px;
+            padding: 15px;
+            background-color: #eaeaea;
+        }
+
+        .month{
+            display: inline-block;
+            text-align: center;
+            background: #424242;
+            border: 1px solid #424242;
+            color: white;
+            font-size: 20px;
+            padding: 7px;
+            text-align: center;
+        }
+
+        .month:hover{
+            background-color: white;
+            color: #f69;
+        }
+
+        .month span{
+            font-size: 30px;
+        }
+
+        .month-details{
+            grid-column: 1/5;
+            border: 1px solid #fff;
+            background-color: #f1f1f1;
+        }
+        .month-details h2{
+            display: block;
+            font-size: 28px;
+            margin: 5px;
+        }
+
+        .month-details p{
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class = "wrapper">
+        <div class="container">
+            <div class="month"><span>1</span> <br>JAN</div>
+            <div class="month"><span>2</span><br> FEB</div>
+            <div class="month"><span>3</span><br> MAR</div>
+            <div class="month"><span>4</span> <br>APR</div>
+            <div class="month"><span>5</span> <br>MAY</div>
+            <div class="month"><span>6</span><br> JUNE</div>
+            <div class="month"><span>7</span> <br>JUL</div>
+            <div class="month"><span>8</span><br> AUG</div>
+            <div class="month"><span>9</span> <br>SEP</div>
+            <div class="month"><span>10</span> <br>OCT</div>
+            <div class="month"><span>11</span> <br>NOV</div>
+            <div class="month"><span>12</span> <br>DEC</div>
+            <div class= "month-details">
+                <h2></h2>
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            const holidays = [
+            "Jan 1	Monday	New Year's Day",
+            "Feb. 18	Presidents' Day	Federal",
+            "Mar 15	Thursday	National Close the Gap Day",
+            "Tuesday	April 03	Easter Tuesday",
+            "Monday	April 02	Easter Monday",
+            "Mon, June 10	Reconciliation Day	Public Holiday",
+            "Jul. 18	World Listening Day	World",
+            "Monday	August 06	Bank Holiday",
+            "Sep 24	Monday	First day of Sukkot",
+            "Oct 1	Monday	Shemini Atzeret",
+            "Monday	October 01	Queens Birthday",
+            "25 Dec	Tue	Christmas Day"
+            ];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octomber', 'Novemeber', 'December'];
+            const heading = document.getElementsByClassName('month-details')[0].getElementsByTagName('h2')[0];
+            const paragraph = document.getElementsByClassName('month-details')[0].getElementsByTagName('p')[0];
+            const month_cards = document.getElementsByClassName('month');
+            const initial_month = 0; 
+            heading.innerHTML = months[initial_month] + " Holiday";
+            paragraph.innerHTML = holidays[initial_month]
+            Array.from(month_cards).forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    const month = parseInt(el.getElementsByTagName('span')[0].textContent)-1;
+                    heading.innerHTML = months[month] + " Holiday";
+                    paragraph.innerHTML = holidays[month];
+                });
+            })
+        }
+    </script>
+</body>
+</html>

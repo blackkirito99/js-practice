@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice for simple tabs</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .container{
+            width: 600px;
+            margin: 20px auto 0 ;
+            border: 1px solid black;
+        }
+        .tabs{
+            list-style: none;
+            background-color: black;
+        }
+
+        .tabs li{
+            display: inline-block;
+            color: white;
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+
+        .tabs li.active{
+            background-color: #ccc;
+            color: black;
+        }
+
+        .content{
+            border-top: 2px solid black;
+            display: none;
+        }
+
+        .content__item{
+            padding: 5px;
+            margin: 10px 35px 10px;
+            font-size: 18px;
+        }
+        .show{
+            display: block;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class = "tabs">
+            <li class="tabs_item tabs_item--1 active">Section 1</li>
+            <li class="tabs_item tabs_item--2">Section 2</li>
+            <li class="tabs_item tabs_item--3">Section 3</li>
+        </ul>
+
+        <ul class="content content--1 show">
+            <li class="content__item">a</li>
+            <li class="content__item">b</li>
+            <li class="content__item">c</li>
+            <li class="content__item">d</li>
+            <li class="content__item">e</li>
+            <li class="content__item">f</li>
+            <li class="content__item">g</li>
+            <li class="content__item">h</li>
+            <li class="content__item">i</li>
+            <li class="content__item">j</li>
+        </ul>
+        <ul class="content content--2">
+            <li class="content__item">1</li>
+            <li class="content__item">2</li>
+            <li class="content__item">3</li>
+            <li class="content__item">4</li>
+            <li class="content__item">5</li>
+            <li class="content__item">6</li>
+            <li class="content__item">7</li>
+            <li class="content__item">8</li>
+            <li class="content__item">9</li>
+            <li class="content__item">10</li>
+        </ul>
+        <ul class="content content--3">
+            <li class="content__item">!</li>
+            <li class="content__item">@</li>
+            <li class="content__item">#</li>
+            <li class="content__item">$</li>
+            <li class="content__item">%</li>
+            <li class="content__item">^</li>
+            <li class="content__item">&</li>
+            <li class="content__item">*</li>
+            <li class="content__item">(</li>
+            <li class="content__item">)</li>
+        </ul>
+    </div>
+    <script>
+        window.onload = () => {
+            var contents = document.getElementsByClassName('content');
+            var tabs = document.getElementsByClassName('tabs_item');
+            Array.from(tabs).forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    for (let i = 0; i < contents.length; i++){
+                        tabs[i].classList.remove('active');
+                    }
+                    const index = el.className.substr(-1);
+                    for (let i = 0; i < contents.length; i++){
+                        contents[i].classList.remove('show');
+                        if (index === (i+1).toString()){
+                            contents[i].classList.add('show');
+                        }
+                    }
+                    el.classList.add('active');
+                })
+            })
+        }
+    </script>
+</body>
+</html>

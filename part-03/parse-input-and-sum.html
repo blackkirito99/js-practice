@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to parseint and make sum</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            text-align: center;
+        }
+        .wrapper{
+            display: inline-block;
+        }
+        span {
+            padding: 5px;
+        }
+        input {
+            margin: 10px 5px;
+            padding: 5px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+        }
+
+        button{
+            margin-left: 10px;
+            padding: 5px;
+            background-color: white;
+            border: 1px solid #ddd; 
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input type="number">
+        <span>+</span>
+        <input type="number">
+        <span>=</span>
+        <span class = "result">?</span>
+        <button>Get Sum</button>
+    </div>
+    <script>
+        window.onload = () => {
+            var inputs = document.getElementsByTagName('input');
+            var result = document.getElementsByClassName('result')[0];
+            var btn = document.getElementsByTagName('button')[0];
+
+            btn.addEventListener('click', () => {
+                let invalid = false;
+                const sum = Array.from(inputs).reduce((prev, cur) => {
+                    if (cur.value !== ""){
+                        return prev +  parseFloat(cur.value);
+                    }else{
+                        invalid = true;
+                    }
+                }, 0)
+                if (invalid) {
+                    result.innerHTML = "?";
+                    alert('Please enter all numbers!');
+                }else{
+                    result.innerHTML = sum;
+                }
+            }) 
+        }
+    </script>
+</body>
+</html>

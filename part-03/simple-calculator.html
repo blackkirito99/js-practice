@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make a simple calculator</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            text-align: center;
+        }
+        .wrapper{
+            background-color: #333;
+            width: 380px;
+            padding: 20px;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .screen{
+            width: 100%;
+            background-color: rgb(160, 163,144);
+            height: 70px;
+            border-radius: 5px;
+            text-align: right;
+            position: relative;
+        }
+
+        .result{
+            line-height: 70px;
+            font-size: 36px;
+            margin-right: 20px;
+        }
+        .equation{
+            position: absolute;
+            right: 20px;
+        }
+        .panel{
+            display: grid;
+            grid-template-columns: repeat(4, 70px);
+            grid-template-rows: repeat(4, 40px);
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+
+        .btn{
+            color: white;
+            line-height: 40px;
+            border-radius: 5px;
+            border: 1px solid white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .btn--black{
+            background-color: black;
+        }
+
+        .btn--black:hover{
+            background-color: #666;
+        }
+
+        .btn--brown{
+            background-color: brown;
+        }
+
+        .btn--brown:hover{
+            background-color: rgb(170, 130, 130);
+        }
+
+        .btn--orange{
+            background-color: orange;
+        }
+
+        .btn--orange:hover{
+            background-color: rgb(251, 208, 129);
+        }
+
+        .btn--0{
+            grid-row: 5/6;
+            grid-column: 1/3;
+        }
+
+        .btn--result{
+            grid-row: 4/6;
+            grid-column: 4/5;
+            line-height: 100px;
+            font-size: 36px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="screen">
+            <p class="equation"></p>
+            <p class="result">0</p>
+        </div>
+        <div class="panel">
+            <div class="btn btn--brown">c</div>
+            <div class="btn btn--brown">%</div>
+            <div class="btn btn--brown">÷</div>
+            <div class="btn btn--brown">x</div>
+            <div class="btn btn--black">7</div>
+            <div class="btn btn--black">8</div>
+            <div class="btn btn--black">9</div>
+            <div class="btn btn--brown">-</div>
+            <div class="btn btn--black">4</div>
+            <div class="btn btn--black">5</div>
+            <div class="btn btn--black">6</div>
+            <div class="btn btn--brown">+</div>
+            <div class="btn btn--black">1</div>
+            <div class="btn btn--black">2</div>
+            <div class="btn btn--black">3</div>
+            <div class="btn btn--black btn--0">0</div>
+            <div class="btn btn--black">.</div>
+            <div class="btn btn--orange btn--result">=</div>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            const btns = document.getElementsByClassName('btn');
+            const result = document.getElementsByClassName('result')[0];
+            const equation = document.getElementsByClassName('equation')[0];
+            let input_stack = [];
+            let current = '0';
+            let clear_if_not_operator = false;
+
+            const updateScreen = () => {
+                result.textContent = current;
+                equation.textContent = input_stack.reduce((prev, cur) => {
+                    return prev + cur;
+                } ,"");
+            };
+
+            const addNumber = (digit) => {
+                if(clear_if_not_operator){
+                    clear_if_not_operator = false;
+                    input_stack = [];
+                    current = '0';
+                }
+                const result = parseInt(current);
+                if (!isNaN(result)) {
+                    if(digit === '.'){
+                        current += digit;
+                    }else{
+                        current = current === '0' ? digit : current + digit;
+                    }
+                } else {
+                    current = digit;
+                }
+            };
+
+            const addOperator = (operator) => {
+                input_stack = clear_if_not_operator ? [] : input_stack;
+                clear_if_not_operator = false;
+                const result = parseInt(current);
+                console.log(result);
+                if (!isNaN(result)) {
+                    console.log(2)
+                    input_stack.push(current);
+                    input_stack.push(operator);
+                    current = operator;
+                } else {
+                    console.log(1)
+                    current = operator;
+                    input_stack.pop();
+                    input_stack.push(operator);
+                }
+            };
+
+            const calculate = () => {
+                if(isNaN(parseFloat(current))){
+                    return;
+                }
+                clear_if_not_operator = true;
+                if(input_stack.length === 0){
+                    input_stack = [current];
+                    return;
+                }
+                let result = parseFloat(input_stack[0]);
+                for(let i = 1; i < input_stack.length - 1 ; i= i + 2){
+                    result = operate(result, parseFloat(input_stack[i+1]), input_stack[i]) ;
+                }
+                result = operate(result, parseFloat(current), input_stack[input_stack.length-1]) ;
+                if(isNaN(result)){
+                    current = "ERR";
+                    input_stack = [];
+                }else{
+                    current = ""+result;
+                    input_stack = [current];
+                }
+            };
+
+            const operate = (num1, num2, operator) => {
+                console.log(num1, num2, operator)
+                switch (operator){
+                    case "+": return num1 + num2;
+                    case "-": return num1 - num2;
+                    case "*": return num1 * num2;
+                    case "÷": return num1 / num2;
+                    case "%": return num1 % num2;
+                }
+            }
+
+            Array.from(btns).forEach(el => {
+                el.addEventListener('click', () => {
+                    const key = el.textContent;
+                    switch (key){
+                        case "c":
+                            input_stack = [];
+                            current = '0';
+                            clear_if_not_operator = false;
+                            break;
+                        case "1": 
+                        case "2": 
+                        case "3": 
+                        case "4": 
+                        case "5": 
+                        case "6": 
+                        case "7": 
+                        case "8":
+                        case "9":  
+                        case "0":
+                        case ".":    
+                            addNumber(key);
+                            break;
+                        case "x":
+                            addOperator("*");
+                            break;
+                        case "%":
+                        case "+":
+                        case "-":
+                        case "÷":
+                            addOperator(key);
+                            break;
+                        case "=":
+                            calculate();
+                            break;
+                        default: 
+                            break;
+                    }
+                    updateScreen();
+                    console.log(current, input_stack);
+                })
+            });
+        }
+    </script>
+</body>
+</html>

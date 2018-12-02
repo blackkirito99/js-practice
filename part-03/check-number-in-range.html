@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to check if abs(number) is between 10(inclusive)-100(exclusive)</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <input type="number">
+    <button>Absolute value of Number is between [10, 100) </button>
+
+    <script>
+        window.onload = () => {
+            const input = document.getElementsByTagName('input')[0];
+            const btn = document.getElementsByTagName('button')[0];
+            btn.addEventListener('click', () => {
+                if(input.value === ""){
+                    alert('Please enter the number');
+                    return;
+                }
+                const value = Math.abs(parseFloat(input.value));
+                if (value >= 10 && value < 100){
+                    alert('The input number is in range!');
+                }else{
+                    alert('The input number is not in range!');
+                }
+
+            })
+        }
+    </script>
+</body>
+
+</html>

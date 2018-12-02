@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to compare input number</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            text-align: center;
+        }
+        .wrapper{
+            display: inline-block;
+        }
+        span {
+            padding: 5px;
+        }
+        input {
+            margin: 10px 5px;
+            padding: 5px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+        }
+
+        button{
+            margin-left: 10px;
+            padding: 5px;
+            background-color: white;
+            border: 1px solid #ddd; 
+            cursor: pointer;
+        }
+
+        .result{
+            color: red;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input type="number">
+        <span>vs</span>
+        <input type="number">
+        <span>=</span>
+        <button>The bigger number is -></button>
+        <span class = "result">?</span>
+    </div>
+    <script>
+        window.onload = () => {
+            var inputs = document.getElementsByTagName('input');
+            var result = document.getElementsByClassName('result')[0];
+            var btn = document.getElementsByTagName('button')[0];
+
+            btn.addEventListener('click', () => {
+                let invalid = false;
+                const max = Array.from(inputs).reduce((prev, cur) => {
+                    if (cur.value !== ""){
+                        const value = parseFloat(cur.value)
+                        return prev > value ? prev : value;
+                    }else{
+                        invalid = true;
+                    }
+                }, Number.MIN_VALUE)
+                if (invalid) {
+                    result.innerHTML = "?";
+                    alert('Please enter all numbers!')
+                }else{
+                    result.innerHTML = max;
+                }
+            }) 
+        }
+    </script>
+</body>
+</html>

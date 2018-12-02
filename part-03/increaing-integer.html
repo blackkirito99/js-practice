@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make increasing integer on page load</title>
+    <style>
+        body{
+            text-align: center;
+        }
+
+        p{
+            font-size: 36px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>0</p>
+    <script>
+        window.onload = () => {
+            var target = document.getElementsByTagName('p')[0];
+            let number = 0;
+            setInterval(() => {
+                number++;
+                target.textContent = number;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

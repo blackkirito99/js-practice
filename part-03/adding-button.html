@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make a adding button</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        button{
+            margin: auto;
+            padding: 5px 12px;
+            background-color: white;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button>0</button>
+    <script>
+        window.onload = () => {
+            const btn = document.getElementsByTagName('button')[0];
+            btn.addEventListener('click', () => {
+                btn.textContent = parseInt(btn.textContent) + 1;
+            })
+        }
+    </script>
+</body>
+</html>

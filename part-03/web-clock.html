@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make a simple web clock</title>
+    <style>
+
+        .wrapper{
+            text-align: center;
+        }
+
+        .clock{
+            background-color: black;
+            color: white;
+            padding: 30px;
+            width: 300px;
+            margin: 20px auto;
+            font-size: 20px;
+        }
+
+        .clock span{
+            background: white;
+            color: black;
+            padding: 3px 10px;
+            border: 2px solid #ccc;
+            margin: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="clock">
+            <span></span>
+            :
+            <span></span>
+            :
+            <span></span>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            var clock_spans = document.getElementsByClassName('clock')[0].getElementsByTagName('span');
+            setInterval( () => {
+                const date = new Date();
+                const time_fields = [date.getHours(), date.getMinutes(), date.getSeconds()];
+                for(let i = 0; i < 3; i++){
+                    clock_spans[i].textContent = time_fields[i] < 10 ? '0' + time_fields[i] : time_fields[i];
+                }
+            }, 100)
+        }
+    </script>
+</body>
+</html>

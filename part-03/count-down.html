@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make a count down</title>
+    <style>
+        .wrapper{
+            text-align: center;
+        }
+        .count-down{
+            background-color: black;
+            color: white;
+            padding: 30px;
+            width: 320px;
+            margin: 20px auto;
+            font-size: 20px;
+        }
+        input{
+            font-size: 20px;
+            width: 40px;
+            text-align: center;
+            margin: 5px 10px;
+        }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        button{
+            display: block;
+            margin: 0 auto;
+            width: 80%;
+            color: white;
+            font-size: 20px;
+            padding: 5px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .start{
+            background-color: green;
+        }
+
+        .start:hover{
+            background-color: rgb(121, 175, 121);
+        }
+
+        .stop{
+            background-color: red;
+        }
+
+        .stop:hover{
+            background-color: rgb(244, 157, 157);
+        }
+
+        .reset{
+            background-color: blue;
+        }
+        
+        .reset:hover{
+            background-color: rgb(164, 164, 251);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="count-down">
+            <input type="number" onkeypress="return event.charCode >= 48" min="1" id = "minute" value = "01">
+            Minute
+            <input type="number" onkeypress="return event.charCode >= 48" min="1" id = "second" value = "40">
+            Second
+            <button class = "start">Start</button>
+            <button class  = "reset" >Reset</button>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            const btns = document.getElementsByTagName('button');
+            const minute = document.getElementById('minute');
+            const second = document.getElementById('second');
+            let counting_down = false;
+            let time_left = 0;
+            let interval;
+
+            const render_view = () => {
+                const minute_value = Math.floor(time_left / 60);
+                const second_value = time_left % 60;
+                minute.value = minute_value < 10 ? '0'+ minute_value : minute_value;
+                second.value = second_value < 10 ? '0'+ second_value : second_value;
+            }
+
+            btns[0].addEventListener('click', () => {
+                if (counting_down) {
+                    counting_down = false
+                    render_view();
+                    clearInterval(interval);
+                    btns[0].className = "start";
+                    btns[0].textContent = 'Start';
+                } else {
+                    time_left = parseInt(minute.value) * 60 + parseInt(second.value);
+                    if(time_left === 0 ||isNaN(time_left)){
+                        return;
+                    }
+                    minute.disabled = true;
+                    second.disabled = true;
+                    interval = setInterval( () => {
+                        time_left -= 1;
+                        render_view();
+                        if(time_left === 0){
+                            clearInterval(interval);
+                            minute.disabled = false;
+                            second.disabled = false;
+                            btns[0].className = "start";
+                            btns[0].textContent = 'Start';
+                        }
+                    }, 1000);
+                    counting_down = true;
+                    btns[0].className = "stop"
+                    btns[0].textContent = 'Stop';
+                }
+            })
+
+            btns[1].addEventListener('click', () => {
+                counting_down = false;
+                time_left = 0;
+                render_view();
+                clearInterval(interval);
+                minute.disabled = false;
+                second.disabled = false;
+            })
+            
+            Array.from([minute, second]).forEach(el => {
+                el.addEventListener('change', () => {
+                    if(parseInt(el.value) > 60){
+                        el.value = 60;
+                    } 
+                })
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make a slide show</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: 100vh;
+            width: 100vw;
+            background-image: linear-gradient(to right bottom, rgb(8, 125, 243), rgb(177, 6, 239));
+        }
+        .wrapper{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .wrapper:after{
+            clear: both;
+            display: table;
+            content: "";
+        }
+        h2{
+            position: absolute;
+            top: -65px;
+            left: 25px;
+        }
+        .image{
+            position: relative;
+        }
+
+        .image img{
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .image img.show{
+            opacity: 1;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        .tab{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        li{
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: orange;
+            text-align: center;
+            line-height: 24px;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
+
+        li:not(:first-child){
+            margin-left: 5px;
+        }
+
+        li.active{
+            background-color: orangered;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Press 1 to slide normally <br> Press 2 to slide reversely</h2>
+        <div class="image">
+            <img src="../part-02/img/pic-1.png" alt="show picture 1" class = "show">
+            <img src="../part-02/img/pic-2.png" alt="show picture 2">
+            <img src="../part-02/img/pic-3.png" alt="show picture 3">
+            <img src="../part-02/img/pic-4.png" alt="show picture 4">
+            <img src="../part-02/img/pic-5.png" alt="show picture 5">
+        </div>
+        <ul class = "tab">
+            <li class = "active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <script>
+        window.onload = () => {
+            const images = document.getElementsByClassName('image')[0].getElementsByTagName('img');
+            const tabs = document.getElementsByClassName('tab')[0].getElementsByTagName('li');
+            let current = 0;
+            let normal_order = false;
+            let interval;
+            const updateSelected = (index) => {
+                images[current].classList.remove('show');
+                images[index].classList.add('show');
+                tabs[current].classList.remove('active');
+                tabs[index].classList.add('active');
+            }
+
+            const autoplay = () => {
+                const newIndex = normal_order ? (current + 1)%images.length : (current - 1 + images.length)%images.length;
+                updateSelected(newIndex);
+                current = newIndex;
+            }
+
+            for(let i = 0; i < tabs.length; i++){
+                tabs[i].addEventListener('mouseover', () => {
+                    updateSelected(i);
+                    current = i;
+                    clearInterval(interval);
+                });
+                tabs[i].addEventListener('mouseout', () => {
+                    interval = setInterval(autoplay, 1000);
+                });
+            }
+
+            document.addEventListener('keypress', (e) => {
+                if(e.keyCode === 49){
+                    normal_order = true;
+                }else if(e.keyCode === 50){
+                    normal_order = false;
+                }
+            })
+
+            interval = setInterval(autoplay, 1000);
+        }
+    </script>
+</body>
+</html>

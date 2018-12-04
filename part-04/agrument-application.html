@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice of argument function</title>
+    <style>
+        pre{
+            background-color: #ddd;
+            padding: 12px 30px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <pre>
+&lt;script type="text/javascript"&gt;
+    var i = iResult = 0
+    function sum()
+    {
+        for (var i = 0; i < arguments.length; i++)
+        {
+            iResult += arguments[i]
+        }
+        return iResult
+    }
+    <span>//apply</span>
+    alert(sum(1,2,3,4,5,6,7,8,9,10)) <span>//output 55</span>
+&lt;/script&gt;
+    </pre>
+    <script>
+        window.onload = () => {
+            let i = result = 0;
+            // cannot use ES6 arrow function here
+            function sum() {
+                for (i = 0; i < arguments.length; i++)
+                {
+                    result += arguments[i]
+                }
+                return result
+            }
+            alert(sum(1,2,3,4,5,6,7,8,9,10));
+            console.log(getComputedStyle(document.getElementsByTagName('pre')[0]))
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to control div using keyboard</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+            padding: 10px;
+        }
+
+        .explanation {
+            padding: 10px 20px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+        }
+
+        span {
+            text-decoration: underline;
+            padding: 0 5px;
+        }
+
+        .target {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="explanation">
+        <p>Th red square can controlled using keyboard, you can do following tasks:</p>
+        <p><br>upward: <span>&uarr;</span> downward: <span>&darr;</span> leftward: <span>&larr;</span> rightward: <span>&rarr;</span> </p>
+        <p><br><span>Ctrl + 1</span>: Change Background color to green.</p>
+        <p><span>Ctrl + 2</span>: Change Background color to yellow.</p>
+        <p><span>Ctrl + 3</span>: Change Background color to blue.</p>
+        <p><span>Ctrl + l</span>: Make larger.</p>
+        <p><span>Ctrl + s</span>: make smaller.</p>
+    </div>
+    <div class="target"></div>
+    <script>
+        window.onload = () => {
+            const target = document.getElementsByClassName('target')[0];
+            let go_up = go_down = go_left = go_right = false;
+
+            const limit = () => {
+                const currentX = parseInt(getComputedStyle(target).left.replace('px', ''));
+                const width = parseInt(getComputedStyle(target).width.replace('px', ''));
+                if (currentX <  width/2) {
+                    target.style.left = `${width/2}px`;
+                } else if (currentX+width/2 > window.innerWidth) {
+                    target.style.left= `${window.innerWidth - width/2}px`;
+                }
+                const currentY = parseInt(getComputedStyle(target).top.replace('px', ''));
+                const height = parseInt((getComputedStyle(target).height.replace('px', '')));
+                if (currentY < 0) {
+                    target.style.top = '0px';
+                } else if (currentY + height > window.innerHeight) {
+                    target.style.top= `${window.innerHeight - height}px`;
+                }
+            }
+
+            setInterval(() => {
+                const currentX = parseInt(getComputedStyle(target).top.replace('px', ''));
+                if (go_up) {
+                    target.style.top = `${currentX - 1}px`;
+                } else if (go_down) {
+                    target.style.top = `${currentX + 1}px`;
+                }
+                const currentY = parseInt(getComputedStyle(target).left.replace('px', ''));
+                if (go_left) {
+                    target.style.left = `${currentY - 1}px`;
+                } else if (go_right) {
+                    target.style.left = `${currentY + 1}px`;
+                }
+                limit();
+            }, 3);
+
+            document.onkeydown = e => {
+                switch (e.keyCode) {
+                    case 38: 
+                        go_up = true;
+                        break;
+                    case 40: 
+                        go_down = true;
+                        break;
+                    case 37: 
+                        go_left = true;
+                        break;
+                    case 39: 
+                        go_right = true;
+                        break;
+                    case 49:
+                        if (e.ctrlKey) {
+                            target.style.backgroundColor = "green";
+                        }
+                        break;
+                    case 50:
+                        if (e.ctrlKey) {
+                            target.style.backgroundColor = "yellow";
+                        }
+                        break;
+                    case 51:
+                        if (e.ctrlKey) {
+                            target.style.backgroundColor = "blue";
+                        }
+                        break;
+                    case 76: 
+                        if (e.ctrlKey) {
+                            const width = parseInt(getComputedStyle(target).width.replace('px', ''));
+                            const height = parseInt((getComputedStyle(target).height.replace('px', '')));
+                            target.style.width = `${width+5}px`;
+                            target.style.height = `${height+5}px`;
+                        }
+                        break;
+                    case 83: 
+                        if (e.ctrlKey) {
+                            const width = parseInt(getComputedStyle(target).width.replace('px', ''));
+                            const height = parseInt((getComputedStyle(target).height.replace('px', '')));
+                            target.style.width = `${width-5}px`;
+                            target.style.height = `${height-5}px`;
+                        }
+                        break;
+                }
+            }
+
+            document.onkeyup = e => {
+                switch (e.keyCode) {
+                    case 38: 
+                        go_up = false;
+                        break;
+                    case 40: 
+                        go_down = false;
+                        break;
+                    case 37: 
+                        go_left = false;
+                        break;
+                    case 39: 
+                        go_right = false;
+                        break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

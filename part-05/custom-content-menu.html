@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make customer content menu</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            position: relative;
+        }
+
+        p {
+            margin-top: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .custom-menu {
+            padding: 5px 0;
+            display: none;
+            position: absolute;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            box-shadow: 0.2rem 0.5rem 1rem rgb(219, 219, 219)
+        }
+
+        .custom-menu.show {
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .custom-menu li{
+            width: 100px;
+            padding: 5px 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .custom-menu li:not(:first-child) {
+            border-top: 1px solid #aaa;
+        }
+
+        .custom-menu li:hover {
+            background-color: rgb(71, 135, 254);
+            color: white;
+        }
+
+
+    </style>
+</head>
+<body>
+    <p>Cutsom content menu, please right click to see, menu close when click outside</p>
+    <div class="custom-menu">
+        <ul>
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+        </ul>
+    </div>
+    <script>
+        window.onload = () => {
+            const content_menu = document.getElementsByClassName('custom-menu')[0];
+            window.oncontextmenu = e => {
+                e.preventDefault();
+                content_menu.classList.add('show');
+                content_menu.style.top = `${e.clientY}px`;
+                content_menu.style.left = `${e.clientX}px`;
+            }
+
+            window.onclick = e => {
+                const menu = e.target.closest('.custom-menu');
+                if (!menu) {
+                    content_menu.classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

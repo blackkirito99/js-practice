@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to flash a image on click</title>
+    <style>
+        .target{
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: red;
+            color: white;
+            line-height: 300px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        .target.hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="target">
+        Click me to flash
+    </div>
+    <script>
+        window.onload = () => {
+            const target = document.getElementsByClassName('target')[0];
+            const flash_count = 5;
+            const flash = () => {
+                // disable listener until flash ends
+                target.removeEventListener('click', flash);
+                let count = 0;
+                const intervel = setInterval(() => {
+                    count++;
+                    if (count >= flash_count * 2) {
+                        clearInterval(intervel);
+                    }
+                    target.classList.toggle('hide');
+                }, 100)
+
+
+                target.addEventListener('click', flash);
+            }
+
+            target.addEventListener('click', flash);
+        }
+    </script>
+</body>
+</html>

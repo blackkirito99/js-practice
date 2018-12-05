@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to use js array methods</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .panel {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #eee;
+            border: 1px solid #aaa;
+            word-wrap: break-word;
+        }
+        button {
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">January(1),February(2),March(3),April(4),May(5),June(6),July(7),Aguest(8),September(9),October(10),November(11),December(12)</div>
+    <button>Delete January(1)</button>
+    <button>December(12)</button>
+    <div class="panel">0,1,2,3,4,5,6,7,8,9</div>
+    <button>Duplicate</button>
+    <button>Reset</button>
+    <div class="panel">red,green,blue,white,yellow,black,brown</div>
+    <button>Reset</button>
+    <button>Delete first three items</button>
+    <button>Delete second and third items</button>
+    <button>Insert (orange, purple) after second item</button>
+    <button>Replace second and third item</button>
+
+    <script>
+        window.onload = () => {
+            const divs = document.getElementsByClassName('panel');
+            const btns = document.getElementsByTagName('button');
+            let delete1 = delete12 = true;
+
+            const toArray = str => {
+                return str.split(',');
+            }
+
+            btns[0].addEventListener('click', () => {
+                if (delete1) {
+                    const array = divs[0].textContent.split(',');
+                    array.shift();
+                    divs[0].textContent = array.join(',');
+                    btns[0].textContent = 'Add January(1)';
+                }else{
+                    const array = divs[0].textContent.split(',');
+                    array.unshift('January(1)');
+                    divs[0].textContent = array.join(',');
+                    btns[0].textContent = 'Remove January(1)';
+                }
+                delete1 = !delete1;
+            });
+
+            btns[1].addEventListener('click', () => {
+                if (delete12) {
+                    const array = divs[0].textContent.split(',');
+                    array.pop();
+                    divs[0].textContent = array.join(',');
+                    btns[1].textContent = 'Add January(1)';
+                }else{
+                    const array = divs[0].textContent.split(',');
+                    array.push('December(12)');
+                    divs[0].textContent = array.join(',');
+                    btns[1].textContent = 'Remove January(1)';
+                }
+                delete12 = !delete12;
+            });
+
+            btns[2].addEventListener('click', () => {
+                divs[1].textContent = divs[1].textContent.split(',').concat(array).join(',');
+            });
+
+            btns[3].addEventListener('click', () => {
+                const array = divs[1].textContent.split(',');
+                array.length = 10;
+                divs[1].textContent = array.concat(array).join(',');
+            });
+
+            btns[4].addEventListener('click', () => {
+                divs[2].textContent = 'red,green,blue,white,yellow,black,brown';
+            });
+
+            btns[5].addEventListener('click', () => {
+                let array = divs[2].textContent.split(',')
+                array.splice(0, 3);
+                divs[2].textContent = array.join(',');
+            })
+
+            btns[6].addEventListener('click', () => {
+                let array = divs[2].textContent.split(',')
+                array.splice(1, 2);
+                divs[2].textContent = array.join(',');
+            })
+
+            btns[7].addEventListener('click', () => {
+                let array = divs[2].textContent.split(',')
+                array.splice(2, 0, 'orange', 'purple');
+                divs[2].textContent = array.join(',');
+            })
+
+            btns[8].addEventListener('click', () => {
+                let array = divs[2].textContent.split(',')
+                array.splice(1, 2, 'wow', 'hello');
+                divs[2].textContent = array.join(',');
+            })
+        }
+    </script>
+</body>
+</html>

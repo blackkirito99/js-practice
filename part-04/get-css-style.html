@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to modify css in JS</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .target{
+            width: 400px;
+            height: 200px;
+            padding: 10px;
+            margin: 10px auto;
+            background-color: rgb(254, 244, 235);
+            border:  1px solid #f60;
+        }
+
+        button{
+            padding: 2px 4px;
+            margin-right: 5px;
+            background-color: #f60;
+            color: white;
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="target">
+        <button>Get Style</button>
+        <button>Set Style</button>
+        <button>Default Style</button>
+    </div>
+    <script>
+        window.onload = () => {
+            const btns = document.getElementsByTagName('button');
+            const target = document.getElementsByClassName('target')[0];
+
+            btns[0].addEventListener('click', () => {
+                alert(
+                    `width: ${getComputedStyle(target).width}\nheight: ${getComputedStyle(target).height}\nbackground-color: ${getComputedStyle(target).backgroundColor}`
+                )
+            });
+
+
+            // use css class can make js code leaner and easy to maintain
+            btns[1].addEventListener('click', () => {
+                target.style.width = '330px';
+                target.style.height = '100px';
+                target.style.backgroundColor = 'rgb(239,248,255)';
+                target.style.borderColor = 'rgb(0, 132, 255)';
+                Array.from(btns).forEach( el => {
+                    console.log(el)
+                    el.style.backgroundColor = 'rgb(0, 132, 255)';
+                })
+            });
+
+            btns[2].addEventListener('click', () => {
+                target.style.width = '400px';
+                target.style.height = '200px';
+                target.style.backgroundColor = 'rgb(254, 244, 235)';
+                target.style.borderColor = '#f60';
+                Array.from(btns).forEach( el => {
+                    console.log(el)
+                    el.style.backgroundColor = '#f60';
+                })
+            });
+        }
+    </script>
+</body>
+</html>

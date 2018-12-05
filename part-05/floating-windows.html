@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make a floating window</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: 0;
+        }
+
+        ul {
+            list-style: none;
+            width: 668px;
+            margin:  20px auto;
+        }
+
+        li {
+            float: left;
+            width: 150px;
+            height: 150px;
+            border: 1px solid #ddd;
+        }
+
+        li:not(:first-child) {
+            margin-left: 20px;
+        }
+
+        li:hover {
+            border-color: rgb(119, 4, 4);
+        }
+
+        .fixed-img {
+            width: 100%;
+        }
+
+        .float-window{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid #aaa;
+            display: none;
+        }
+        .float-window.show {
+            display: block;
+        }
+        .float-window__img{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><img src="../part-02/img/pic-1.png" alt="picture 1" class = 'fixed-img'></li>
+        <li><img src="../part-02/img/pic-2.png" alt="picture 2" class = 'fixed-img'></li>
+        <li><img src="../part-02/img/pic-3.png" alt="picture 3" class = 'fixed-img'></li>
+        <li><img src="../part-02/img/pic-4.png" alt="picture 4" class = 'fixed-img'></li>
+    </ul>
+    <div class="float-window">
+        <img class="float-window__img" src="../part-02/img/pic-1.png" alt="floating image">
+    </div>
+    <script>
+        window.onload = () => {
+            const fixed_imgs = document.getElementsByClassName('fixed-img');
+            const floating_winodw = document.getElementsByClassName('float-window')[0];
+            const floating_img = document.getElementsByClassName('float-window__img')[0];
+
+            Array.from(fixed_imgs).forEach(el => {
+                el.addEventListener('mouseover', () => {
+                    floating_img.src = el.src;
+                    floating_winodw.classList.add('show');
+                })
+
+                el.addEventListener('mousemove', e => {
+                    floating_winodw.style.top = `${e.clientY + 20}px`;
+
+                    let x_cord = e.clientX + 20;
+                    if (floating_winodw.offsetWidth + x_cord + 80> window.innerWidth) {
+                        x_cord = e.clientX - floating_winodw.offsetWidth - 20;
+                    }
+                    floating_winodw.style.left = `${x_cord}px`;
+                })
+
+                el.addEventListener('mouseout', () => {
+                    floating_winodw.classList.remove('show');
+                })
+            })
+
+            
+        }
+    </script>
+</body>
+</html>

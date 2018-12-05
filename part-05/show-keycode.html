@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to get keycode</title>
+    <style>
+        pre {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 1px solid #aaa;
+            background-color: #eee;
+            font-size: 16px;
+        }
+        p{
+            text-align: center;
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+<pre>
+&lt;script type="text/javascript"&gt;
+    window.onload = function ()
+    {
+        var oP = document.getElementsByTagName("p")[0];	
+        document.onkeydown = function (event)
+        {
+            var event = event || window.event;
+            oP.innerHTML = event.keyCode;
+            return false
+        }
+    }
+&lt;/script&gt;
+</pre>
+<p>Here will show up keycode of the key your pressed.</p>
+<script>
+    window.onload = () => {
+        const p = document.getElementsByTagName('p')[0];
+        document.addEventListener('keydown', e => {
+            p.textContent = e.keyCode;
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to prevent default right click menu</title>
+    <style>
+        pre {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 1px solid #aaa;
+            background-color: #eee;
+            font-size: 16px;
+        }
+        p{
+            text-align: center;
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+<pre>
+&lt;script type="text/javascript"&gt;
+    <span>//※oncontextmenu</span>
+    document.oncontextmenu = function (e)
+    {
+        e.preventDefault();
+    }
+&lt;/script&gt;
+</pre>
+<script>
+    window.onload = () => {
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make trace animation</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .target {
+            width: 350px;
+            border: 2px solid white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .drag-bar {
+            background-color: #111;
+            border-bottom: 2px solid white;
+            padding: 5px 15px;
+            cursor:all-scroll;
+        }
+
+        .drag-bar::after{
+            clear: both;
+            display: table;
+            content: "";
+        }
+
+        .drag-bar p {
+            text-align: right;
+            display: inline-block;
+            float: right;
+            cursor: pointer;
+        }
+
+        .status-panel {
+            background-color: #333;
+            padding: 15px 20px;
+        }
+
+        .status-panel__item {
+            padding: 10px 0;
+            font-weight: 500;
+        }
+
+        .status-panel__item span {
+            color: yellow;
+            padding-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="target">
+        <div class="drag-bar">
+            <p>Click to replay trace</p>
+        </div>
+        <div class="status-panel">
+            <p class="status-panel__item">Drag: <span></span></p>
+            <p class="status-panel__item">offsetTop: <span>0</span></p>
+            <p class="status-panel__item">offsetLeft: <span>0</span></p>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            // Assume window size will not change
+            const target = document.getElementsByClassName('target')[0];
+            const bar = document.getElementsByClassName('drag-bar')[0];
+            const spans = document.getElementsByTagName('span');
+            const btn = bar.getElementsByTagName('p')[0];
+
+            // calculate constants
+            const width = parseInt(getComputedStyle(target).width.replace('px', '')) + 
+                        2 * parseInt(getComputedStyle(target).borderWidth.replace('px', ''));
+            const height = parseInt(getComputedStyle(target).height.replace('px', '')) + 
+                        2 * parseInt(getComputedStyle(target).borderWidth.replace('px', ''))
+                        +  parseInt(getComputedStyle(bar).borderBottomWidth.replace('px', ''));
+            const window_width = window.innerWidth;
+            const window_height = window.innerHeight;
+
+            // set up initial state
+            const coords = [];
+            let drag = false;
+            let offsetX = offsetY = 0;
+            coords.push({
+                x: target.offsetLeft,
+                y: target.offsetTop
+            });
+
+            // private method to help update status
+            const status = () => {
+                spans[0].textContent = drag ? 'true' : 'false';
+                spans[1].textContent = target.offsetTop - height/2;
+                spans[2].textContent = target.offsetLeft - width/2;
+            }
+            status();
+
+            // mouse down to enable drag, and save mouse offset to  target div
+            bar.addEventListener('mousedown', e => {
+                if(e.target === bar) {
+                    drag = true;
+                    console.log(e.clientX, (target.offsetTop - height/2))
+                    offsetX = e.clientX - (target.offsetLeft);
+                    offsetY = e.clientY - (target.offsetTop);
+                    status();
+                }
+            });
+
+            // mouse up to disable drag
+            document.addEventListener('mouseup', e => {
+                drag = false;
+                status();
+            });
+
+            // mouse move event
+            document.addEventListener('mousemove', e => {
+                if (drag) {
+                    let cur_l = e.clientX - offsetX;
+                    let cur_t = e.clientY - offsetY;
+                    
+                    // fix overflow
+                    if (cur_l < width/2) {
+                        cur_l = width/2;
+                    }else if (cur_l > window_width - width/2 ) {
+                        cur_l = window_width - width/2;
+                    }
+                    if (cur_t < height/2) {
+                        cur_t = height/2;
+                    }else if (cur_t > window_height - height/2 ) {
+                        cur_t = window_height - height/2;
+                    }
+
+                    // set new position
+                    target.style.left = cur_l + 'px';
+                    target.style.top = cur_t + 'px';
+
+                    // save new position
+                    coords.push({
+                        x: target.offsetLeft,
+                        y: target.offsetTop});
+
+                    // update status
+                    status();
+                }
+            });
+
+            btn.addEventListener('click', e => {
+                // show reverse trace with at an interval of 30ms
+                const interval = setInterval(() => {
+                    if (coords.length > 0) {
+                        const coord = coords.pop();
+                        target.style.left = coord.x + 'px';
+                        target.style.top = coord.y + 'px';
+                    } else {
+                        clearInterval(interval);
+                    }
+                    status();
+                }, 30);
+
+                // push initial position
+                coords.push({
+                    x: target.offsetLeft,
+                    y: target.offsetTop
+                })
+            }) 
+
+
+        }
+    </script>
+</body>
+</html>

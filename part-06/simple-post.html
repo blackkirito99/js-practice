@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pratice to make a simple post</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background-color: #3c3a3b;
+        }
+        .post {
+            width: 500px;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+        }
+        ul {
+            list-style: none;
+        }
+        .post__create {
+            position: relative;
+            text-align: right;
+        }
+        .post__create h1 {
+            width: 100%;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .post__create-name {
+
+        }
+
+        .icon {
+            position: absolute;
+            right: 0;
+            top: 41px;
+        }
+        .icon li {
+            display: inline-block;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .icon img{
+            width: 100%;
+            opacity: 0.5;
+        }
+        
+        .icon li.active, 
+        .icon li:hover {
+            border-color: orangered;
+        }
+
+        .icon li.active img, 
+        .icon li:hover img {
+            opacity: 1;
+        }
+
+        input, textarea {
+            display: block;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 20px;
+            padding: 3px 5px;
+            color: #777;
+        }
+
+        input {
+            height: 40px;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            height: 85px;
+            width: 100%;
+            line-height: 24px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        .post__create p {
+            font-size: 18px;
+            line-height: 30px;
+            color: #999;
+            display: inline-block;
+        }
+
+        .post__create span {
+            font-size: 36px;
+        }
+
+        .post__create button {
+            font-size: 30px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(45, 192, 45);
+            letter-spacing: 4px;
+            padding: 5px 35px;
+            color: white;
+            font-weight: 100;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .post__create button:hover {
+            background-color: rgb(121, 186, 121);
+        }
+
+        .post__list {
+            margin-top: 20px;
+        }
+        .post__list h3{
+            background-color: #e9ebec;
+            height: 40px;
+            position: relative;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .post__list span {
+            padding: 5px 10px;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            background: white;
+            font-size: 16px;
+        }
+        .post__list-item {
+            padding: 10px 10px 15px;
+            border-bottom: 1px dashed grey;
+            position: relative;
+        }
+        .post__list-item::after {
+            clear: both;
+            display: table;
+            content: "";
+        }
+        .post__list-item img {
+            width: 60px;
+            padding-right: 10px;
+            float: left;
+        }
+
+        .post__time {
+            margin-top: 10px;
+            color: #889db6;
+        }
+
+        .post__delete {
+            position: absolute;
+            right: 10px;
+            bottom: 18px;
+            color: #889db6;
+            display: none;
+            cursor: pointer;
+        }
+        .post__list-item:hover .post__delete {
+            display: block;
+        }
+
+        .post__delete:hover { 
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="post">
+        <div class="post__create">
+            <h1>Hi, what you ganna share with others?</h1>
+            <input type="text" class = "post__create-name">
+            <textarea class = "post__create-content"></textarea>
+            <p class="post__remain"><span>250</span> characters left.</p>
+            <button>Post</button>
+            <ul class="icon">
+                <li class = 'active'><img src="../part-02/img/pic-1.png" alt="icon1"></li>
+                <li><img src="../part-02/img/pic-2.png" alt="icon2"></li>
+                <li><img src="../part-02/img/pic-3.png" alt="icon3"></li>
+                <li><img src="../part-02/img/pic-4.png" alt="icon4"></li>
+                <li><img src="../part-02/img/pic-5.png" alt="icon5"></li>
+                <li><img src="../part-02/img/pic-6.png" alt="icon6"></li>
+            </ul>
+        </div>
+        <div class="post__list">
+            <h3><span>See what other people are saying:</span></h3>
+            <ul>
+                <li class="post__list-item">
+                    <img src="../part-02/img/pic-1.png" alt="People 1">
+                    <p class="post__main">Jack: Wooow! Hello World</p>
+                    <p class="post__time">2017/10/8</p>
+                    <p class="post__delete">Delete</p>
+                </li>
+                <li class="post__list-item">
+                    <img src="../part-02/img/pic-3.png" alt="People 1">
+                    <p class="post__main">Jack: Wooow! Hello World</p>
+                    <p class="post__time">2017/10/8</p>
+                    <p class="post__delete">Delete</p>
+                </li>
+                <li class="post__list-item">
+                    <img src="../part-02/img/pic-5.png" alt="People 1">
+                    <p class="post__main">Jack: Wooow! Hello WorldJack: Wooow! Hello WorldJack:a asd dsa ads a Wooow! Hello WorldJack: Wooow! Hello World</p>
+                    <p class="post__time">2017/10/8</p>
+                    <p class="post__delete">Delete</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => {
+            const inputName = document.getElementsByClassName('post__create-name')[0];
+            const inputContent = document.getElementsByClassName('post__create-content')[0];
+            const inputIcons = document.getElementsByClassName('icon')[0].getElementsByTagName('li');
+            const postBtn = document.querySelector('.post__create button');
+            const wordHint = document.querySelector('.post__create  span');
+
+            const postListUl = document.querySelector('.post__list ul');
+            const deleteBtns = document.querySelectorAll('.post__delete');
+
+            let currentImgIndex = 0;
+
+            // update input icon
+            for (let i = 0; i < inputIcons.length; i++) {
+                inputIcons[i].getElementsByTagName('img')[0].addEventListener('click', (e) => {
+                    Array.from(inputIcons).forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    currentImgIndex = i;
+                    inputIcons[i].classList.add('active');
+                }); 
+            }
+            // make a new post
+            postBtn.addEventListener('click', () => {
+                const name = inputName.value;
+                const content = inputContent.value;
+
+                // check if any entry is empty
+                if (name === "" || content === "") {
+                    alert("please enter your name and the content!")
+                    return;
+                }
+
+                // prepare post information
+                const iconUrl = inputIcons[currentImgIndex].getElementsByTagName('img')[0].src;
+                const now = new Date();
+                const time = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`;
+
+                // insert html into DOM
+                const markup = `
+                <li class="post__list-item">
+                    <img src="${iconUrl}" alt="${name} Figure">
+                    <p class="post__main">${name}: ${content}</p>
+                    <p class="post__time">${time}</p>
+                    <p class="post__delete">Delete</p>
+                </li>`;
+                postListUl.insertAdjacentHTML('afterbegin', markup);
+                
+                // Clear input fields
+                inputName.value = "";
+                inputContent.value = "";
+                wordHint.innerHTML = 250 - inputContent.value.length;
+
+                // animation TODO
+
+
+
+            })
+
+            // update word count hint
+            inputContent.addEventListener('keydown', () => {
+                wordHint.innerHTML = 250 - inputContent.value.length;
+            });
+
+            // Method to delete existing posts
+            Array.from(deleteBtns).forEach(el => {
+                el.addEventListener('click', () => {
+                    const deleteTarget = el.parentNode;
+                    postListUl.removeChild(deleteTarget);
+                });
+
+                // animation TODO
+
+
+
+
+
+            })
+
+
+
+        }
+    </script>
+    
+</body>
+</html>

@@ -112,7 +112,6 @@
             bar.addEventListener('mousedown', e => {
                 if(e.target === bar) {
                     drag = true;
-                    console.log(e.clientX, (target.offsetTop - height/2))
                     offsetX = e.clientX - (target.offsetLeft);
                     offsetY = e.clientY - (target.offsetTop);
                     status();
@@ -174,9 +173,8 @@
                 coords.push({
                     x: target.offsetLeft,
                     y: target.offsetTop
-                })
+                });
             }) 
-
 
         }
     </script>

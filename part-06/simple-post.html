@@ -340,6 +340,7 @@
 
             // update word count hint
             inputContent.addEventListener('keydown', () => {
+                // limit input?
                 wordHint.innerHTML = 250 - inputContent.value.length;
             });
 

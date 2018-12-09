@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make movement animation based on mouse movement</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 10px;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: 1px solid #777;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .hint {
+            padding: 10px;
+            font-size: 24px;
+        }
+
+        .target {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+        }
+
+        .click-transition {
+            transition: all 1s ease-in-out;
+        }
+
+        .trace-transition {
+            transition: all 0.03s;
+        }
+
+    </style>
+</head>
+<body>
+    <button class = "click-animation">
+        Move according to mouse click position
+    </button>
+    <button class = "trace-animation">
+        Move according to mouse trace
+    </button>
+    <p class="hint">Please click button to enable functionality</p>
+    <div class="target">
+        <img src="./img/1.gif" alt="moving figure">
+    </div>
+    <script>
+        window.onload = () => {
+            const clickBtn = document.getElementsByClassName('click-animation')[0];
+            const traceBtn = document.getElementsByClassName('trace-animation')[0];
+            const target = document.getElementsByClassName('target')[0];
+            const hint = document.getElementsByClassName('hint')[0];
+
+            let mode = 'off';
+            let trace = [];
+            let mousedown = false;
+
+            // enable click animation
+            clickBtn.addEventListener('click', () => {
+                if (mode !== 'click') {
+                    hint.textContent = 'Click on the page, the figure will move to that location';
+                    clickBtn.textContent += '(activated)'
+                    traceBtn.textContent = traceBtn.textContent.replace('(activated)', '');
+                    mode = 'click';
+                }
+            });
+
+            // enable trace animation
+            traceBtn.addEventListener('click', () => {
+                if (mode !== 'trace') {
+                    hint.textContent = 'Hold left button, drag on the page, the figure will move along the trace';
+                    traceBtn.textContent += '(activated)'
+                    clickBtn.textContent = clickBtn.textContent.replace('(activated)', '');
+                    mode = 'trace';
+                }
+            });
+
+            // do click animation
+            document.addEventListener('click', e => {
+                if (mode !== 'click' || e.target === clickBtn || e.target.traceBtn) {
+                    return;
+                }
+                const img = target.getElementsByTagName('img')[0]
+                // set final location
+                target.style.top = e.clientY + 'px';
+                target.style.left= e.clientX + 'px';
+                // add transition class and change to moving image
+                target.classList.add('click-transition');
+                img.src = img.src.replace('1.gif', '2.gif');
+                setTimeout(() => {
+                    // remove class and change image back
+                    img.src = img.src.replace('2.gif', '1.gif');
+                    target.classList.remove('click-transition');
+                }, 1000)
+            });
+
+            // mouse down to start recording trace
+            document.addEventListener('mousedown', e => {
+                if (mode !== 'trace' || e.target === clickBtn || e.target.traceBtn) {
+                    return;
+                }
+                mousedown = true;
+                
+            });
+
+            // when mouse down, mouse move to record trace
+            document.addEventListener('mousemove', e => {
+                if (mode !== 'trace' || e.target === clickBtn || e.target.traceBtn || !mousedown) {
+                    return;
+                }
+                trace.push({
+                    x: e.clientX,
+                    y: e.clientY
+                })
+            });
+
+            // mouse up to replay the trace
+            document.addEventListener('mouseup', e => {
+                if (mode !== 'trace' || e.target === clickBtn || e.target.traceBtn) {
+                    trace = [];
+                    return;
+                }
+                const img = target.getElementsByTagName('img')[0];
+                mousedown = false;
+                // add transition class and change to moving image
+                target.classList.add('transition');
+                img.src = img.src.replace('1.gif', '2.gif');
+                // move to each coordinate at a interval of 30ms
+                const interval = setInterval(() => {
+                    if (trace.length <= 0) {
+                        clearInterval(interval);
+                        trace = [];
+                        // remove class and change image back
+                        target.classList.remove('transition');
+                        img.src = img.src.replace('2.gif', '1.gif');
+                        return;
+                    }
+                    const coord = trace.shift();
+                    target.style.top = coord.y + 'px';
+                    target.style.left = coord.x + 'px'; 
+                }, 30)
+            });
+        }
+    </script>
+</body>
+</html>

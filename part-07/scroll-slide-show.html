@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make a scroll effect slide show</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: 100vh;
+            width: 100vw;
+            background-image: linear-gradient(to right bottom, rgb(8, 125, 243), rgb(177, 6, 239));
+        }
+        .wrapper{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            border: white solid 10px;
+            border-radius: 20px;
+        }
+
+        .image{
+            position: relative;
+        }
+
+        .image img{
+            width: 100%;
+            position: absolute;
+            left: 0;
+            transition: all 0.5s;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        .tab{
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        li{
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: orange;
+            text-align: center;
+            line-height: 24px;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
+
+        li:not(:first-child){
+            margin-left: 5px;
+        }
+
+        li.active{
+            background-color: orangered;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="image">
+            <img src="../part-02/img/pic-1.png" alt="show picture 1" class = "show">
+            <img src="../part-02/img/pic-2.png" alt="show picture 2">
+            <img src="../part-02/img/pic-3.png" alt="show picture 3">
+            <img src="../part-02/img/pic-4.png" alt="show picture 4">
+            <img src="../part-02/img/pic-5.png" alt="show picture 5">
+        </div>
+        <ul class = "tab">
+            <li class = "active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <script>
+        window.onload = () => {
+            const images = document.getElementsByClassName('image')[0].getElementsByTagName('img');
+            const tabs = document.getElementsByClassName('tab')[0].getElementsByTagName('li');
+            let current = 0;
+            let normal_order = true;
+            let interval;
+            
+            // set offset for all pictures
+            const setNewOffset = (offset) => {
+                for (let i = 0; i < images.length; i++) {
+                    const image = images[i];
+                    image.style.top = `${parseInt(getComputedStyle(image).width.replace('px','')) * (i -offset )}px`;
+                }
+            }
+
+            // update image to show
+            const updateSelected = (index) => {
+                tabs[current].classList.remove('active');
+                tabs[index].classList.add('active');
+                setNewOffset(index);
+            }
+
+            // set initial offset: show first image
+            setNewOffset(0);
+
+            // auto play, if reach the end, reverse the order
+            const autoplay = () => {
+                let newIndex = normal_order ? current + 1 : current - 1;
+                if ( newIndex  >= images.length) {
+                    newIndex = images.length - 2;
+                    normal_order = false;
+                }else if (newIndex < 0) {
+                    newIndex = 1;
+                    normal_order = true;
+                }
+                console.log(newIndex)
+                updateSelected(newIndex);
+                current = newIndex;
+            }
+
+            // on hover, scroll to target image, disable autoplay until mouse out
+            for(let i = 0; i < tabs.length; i++){
+                tabs[i].addEventListener('mouseover', () => {
+                    updateSelected(i);
+                    current = i;
+                    clearInterval(interval);
+                });
+                tabs[i].addEventListener('mouseout', () => {
+                    interval = setInterval(autoplay, 3000);
+                });
+            }
+
+            // start initial auto play
+            interval = setInterval(autoplay, 3000);
+        }
+    </script>
+</body>
+</html>

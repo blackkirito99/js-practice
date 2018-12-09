@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pratice to make a simple post</title>
+    <title>Practice to make a simple post</title>
     <style>
         * {
             padding: 0;
@@ -34,10 +34,6 @@
             font-size: 24px;
             margin-bottom: 15px;
             text-align: left;
-        }
-
-        .post__create-name {
-
         }
 
         .icon {
@@ -143,12 +139,15 @@
             padding: 10px 10px 15px;
             border-bottom: 1px dashed grey;
             position: relative;
+            transition: all 0.3s;
+            display: block;
         }
         .post__list-item::after {
             clear: both;
             display: table;
             content: "";
         }
+
         .post__list-item img {
             width: 60px;
             padding-right: 10px;
@@ -175,6 +174,14 @@
         .post__delete:hover { 
             text-decoration: underline;
         }
+
+        .fillbox {
+            opacity: 0;
+            width: 100%;
+            display: block;
+            transition: all 0.5s;
+        }
+
     </style>
 </head>
 <body>
@@ -228,9 +235,37 @@
             const wordHint = document.querySelector('.post__create  span');
 
             const postListUl = document.querySelector('.post__list ul');
-            const deleteBtns = document.querySelectorAll('.post__delete');
+            let deleteBtns = document.querySelectorAll('.post__delete');
 
             let currentImgIndex = 0;
+
+            const deleteAction = (el) => {
+                const deleteTarget = el.parentNode;
+            
+                // animation 1: deleting post fade out
+                deleteTarget.style.opacity = 0
+                setTimeout(() => {
+                    // animation 2: slide up animation by inserting an fill box and shrink its height
+
+                    // save the height of deleting post and add a same height fill box to the list
+                    const height = getComputedStyle(deleteTarget).height;
+                    deleteTarget.insertAdjacentHTML('beforebegin', `<div class ="fillbox" style = "height: ${height}"></div>`);
+                    const fillbox = document.querySelector('.fillbox');        
+            
+                    // remove the deleted post element
+                    postListUl.removeChild(deleteTarget);
+
+                    // little delay before reducing height; 
+                    setTimeout(() => {
+                        fillbox.style.height = 0;
+
+                        // after 0.5s animation delete the temporarily fill box
+                        setTimeout(() => {
+                            postListUl.removeChild(fillbox);
+                        }, 500)
+                    }, 10);
+                }, 500);
+            };
 
             // update input icon
             for (let i = 0; i < inputIcons.length; i++) {
@@ -258,25 +293,49 @@
                 const now = new Date();
                 const time = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`;
 
-                // insert html into DOM
+                // insert html into DOM with display none and opacity 0
                 const markup = `
-                <li class="post__list-item">
+                <li class="post__list-item reduce" style = "opacity: 0">
                     <img src="${iconUrl}" alt="${name} Figure">
                     <p class="post__main">${name}: ${content}</p>
                     <p class="post__time">${time}</p>
                     <p class="post__delete">Delete</p>
                 </li>`;
                 postListUl.insertAdjacentHTML('afterbegin', markup);
-                
+
+                // get computed height and set display to none
+                const newPost = postListUl.getElementsByClassName('post__list-item')[0];
+                const height = getComputedStyle(newPost).height;
+                newPost.style.display = 'none';
+
                 // Clear input fields
                 inputName.value = "";
                 inputContent.value = "";
                 wordHint.innerHTML = 250 - inputContent.value.length;
 
-                // animation TODO
+                // animation 1: slide all existing post down
+                // insert fillbox with height 0
+                postListUl.insertAdjacentHTML('afterbegin', `<div class ="fillbox" style = "height: 0"></div>`);
+                const fillbox = document.querySelector('.fillbox');
+                // change height after 10ms
+                setTimeout(() => {
+                    // set fill box's height to new post's height;
+                    fillbox.style.height = height;
+                    // animation 2: new post faded in
+                    setTimeout(() => {
+                        // remove fill box and fade in new post
+                        postListUl.removeChild(fillbox);
+                        newPost.style.display = 'block';
+                        newPost.style.opacity = 1;
+                    }, 500);
 
+                }, 10)
 
-
+                // update delete btns
+                const deleteBtn = newPost.getElementsByClassName('post__delete')[0];
+                deleteBtn.addEventListener('click', () => {
+                    deleteAction(deleteBtn);
+                });
             })
 
             // update word count hint
@@ -287,20 +346,9 @@
             // Method to delete existing posts
             Array.from(deleteBtns).forEach(el => {
                 el.addEventListener('click', () => {
-                    const deleteTarget = el.parentNode;
-                    postListUl.removeChild(deleteTarget);
+                    deleteAction(el);
                 });
-
-                // animation TODO
-
-
-
-
-
             })
-
-
-
         }
     </script>
     

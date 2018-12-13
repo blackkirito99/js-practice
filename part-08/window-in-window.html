@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make a window in the browser</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            height: 100vh;
+            background-image: linear-gradient(to right bottom, rgb(63, 8, 243), rgb(215, 16, 237));
+            position: relative;
+        }
+
+        #window {
+            background-color: #fff;
+            display: inline-block;
+            position: absolute;
+            top: calc(50% - 100px);
+            left: calc(50% - 200px);
+
+            padding: 5px;
+            min-height: 200px;
+            min-width: 400px;
+            box-shadow: 0 1px 3px 2px #666;
+            border-radius: 5px;
+            border: 1px solid black;
+
+            overflow: hidden;
+        }
+
+        #title {
+            display: block;
+            padding: 5px 0;
+            border-bottom: 1px solid #aaa;
+            cursor: move;
+        }
+        #title p {
+            display: inline-block;
+        }
+        #title ul {
+            list-style: none;
+            float: right;
+        }
+
+        #title ul li,
+        #open{
+            width: 21px;
+            height: 19px;
+            display: inline-block;
+            margin-left: 5px;
+            background:url(img/tool.png);
+            cursor: pointer;
+        }
+        #open {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            margin-left: -10px;
+            background-position: 0 0;
+        }
+
+        #open:hover{
+            background-position: 0 -29px;
+        }
+        #title ul li#min{
+            background-position:-29px 0;
+        }
+
+        #title ul li#min:hover{
+            background-position:-29px -29px;
+        }
+
+        #title ul li#max{
+            background-position:-60px 0;
+        }
+
+        #title ul li#max:hover{
+            background-position:-60px -29px;
+        }
+
+        #title ul li#max.revert{
+            background-position:-149px 0;
+        }
+
+        #title ul li#max.revert:hover{
+            background-position:-149px -29px;
+        }
+
+        #title ul li#close{
+            background-position:-89px 0;
+        }
+
+        #title ul li#close:hover{
+            background-position:-89px -29px;
+        }
+
+        #content {
+            padding: 5px 0;
+        }
+
+        .resize {
+            position: absolute;
+            overflow: hidden;
+            z-index: 99;
+        }
+
+        #resize-R {
+            height: 100%;
+            width: 5px;
+            top: 0;
+            right: 0;
+            cursor: e-resize;
+        }
+
+        #resize-L {
+            height: 100%;
+            width: 5px;
+            top: 0;
+            left: 0;
+            cursor: w-resize;
+        }
+
+        #resize-T {
+            height: 5px;
+            width: 100%;
+            top: 0;
+            right: 0;
+            cursor: n-resize;
+        }
+
+        #resize-B {
+            height: 5px;
+            width: 100%;
+            bottom: 0;
+            right: 0;
+            cursor: s-resize;
+        }
+
+        #resize-TL {
+            height: 8px;
+            width: 8px;
+            top: 0;
+            left: 0;
+            cursor: nw-resize;
+        }
+
+        #resize-TR {
+            height: 8px;
+            width: 8px;
+            top: 0;
+            right: 0;
+            cursor: ne-resize;
+        }
+
+        #resize-BL {
+            height: 8px;
+            width: 8px;
+            bottom: 0;
+            left: 0;
+            cursor: sw-resize;
+        }
+
+        #resize-BR {
+            height: 14px;
+            width: 14px;
+            background: url(img/resize.png) no-repeat;
+            bottom: 0;
+            right: 0;
+            cursor: se-resize;
+        }
+        .unselectable {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="window">
+        <div id="title">
+            <p class = "unselectable">
+                This is a draggable window
+            </p>
+            <ul>
+                <li id = "min"></li>
+                <li id = "max"></li>
+                <li id = "close"></li>
+            </ul>
+        </div>
+        <div class = "resize" id="resize-L"></div>
+        <div class = "resize" id="resize-R"></div>
+        <div class = "resize" id="resize-T"></div>
+        <div class = "resize" id="resize-B"></div>
+        <div class = "resize" id="resize-TL"></div>
+        <div class = "resize" id="resize-TR"></div>
+        <div class = "resize" id="resize-BL"></div>
+        <div class = "resize" id="resize-BR"></div>
+
+        <div id="content">
+            ① Window can be dragged;<br />
+            ② Window can change size through eight directions;<br />
+            ③ Window can be minimized, maximized, reverted, closed;<br />
+            ④ Limit window's minimal height and width.
+        </div>
+
+    </div>
+
+    <script>
+        window.onload = () => {
+            const movingWindow = document.getElementById('window');
+            const dragTable = document.getElementById('title');
+            const maxBtn = document.getElementById('max');
+            const minBtn = document.getElementById('min');
+            const closeBtn = document.getElementById('close');
+
+            const minWidth = 400;
+            const minHeight = 200;
+            
+            let dragging = false;
+            let xOffset = yOffset = 0;
+            
+            dragTable.onmousedown = e => {
+                if (e.target !== dragTable && e.target.tagName.toLowerCase() !== 'p') {
+                    return;
+                }
+                dragging = true;
+                xOffset = e.clientX - movingWindow.offsetLeft;
+                yOffset = e.clientY - movingWindow.offsetTop;
+                document.onmousemove = e => {
+                    if (!dragging) {
+                        return;
+                    }
+                    let x_c = e.clientX - xOffset;
+                    let y_c = e.clientY - yOffset;
+                    x_c = x_c < 0 ? 0 : x_c;
+                    y_c = y_c < 0 ? 0 : y_c;
+                    const currentWidth = parseInt(getComputedStyle(movingWindow).width.replace('px', ''));
+                    const currentHeight = parseInt(getComputedStyle(movingWindow).height.replace('px', ''));
+                    x_c = x_c + currentWidth > window.innerWidth ? window.innerWidth - currentWidth : x_c
+                    y_c = y_c + currentHeight > window.innerHeight ? window.innerHeight - currentHeight : y_c
+                    movingWindow.style.left = x_c + 'px';
+                    movingWindow.style.top = y_c + 'px';
+                }
+                document.onmouseup = e => {
+                    dragging = false;
+                }
+            }
+
+
+            maxBtn.addEventListener('click', () => {
+                if (!maxBtn.classList.contains('revert')) {
+                    movingWindow.style.top = 0;
+                    movingWindow.style.left = 0;
+                    movingWindow.style.height = '100%';
+                    movingWindow.style.width = '100%';
+                    maxBtn.classList.add('revert');
+                } else {
+                    movingWindow.style.top = (0.5 * window.innerHeight - minHeight * 0.5) + 'px';
+                    movingWindow.style.left = (0.5 * window.innerWidth - minWidth * 0.5) + 'px';
+                    movingWindow.style.height = minHeight + 'px'
+                    movingWindow.style.width = minWidth + 'px'
+                    maxBtn.classList.remove('revert');
+                }
+            }); 
+
+            closeBtn.onclick = minBtn.onclick = () => {
+                const openTab = document.createElement('a');
+                openTab.id = 'open';
+                document.getElementsByTagName('body')[0].appendChild(openTab);
+                movingWindow.style.display = 'none';                
+            }
+
+            document.addEventListener('click', e => {
+                if (e.target.id !== 'open') {
+                    return;
+                }
+                movingWindow.style.display = 'block';   
+                document.getElementsByTagName('body')[0].removeChild(e.target);
+            });
+
+            const resize = (handler, left, top, lockX, lockY) => {
+                let resizing = false;
+
+                handler.onmousedown = e => {
+                    resizing = true;
+                    const disX = e.clientX - handler.offsetLeft;
+                    const disY = e.clientY - handler.offsetTop;
+                    console.log(e.clientX,  handler.offsetLeft)
+                    console.log(e.clientY,  handler.offsetTop)
+                    console.log(disX, disY);
+                    const windowTop = movingWindow.offsetTop;
+                    const windowLeft = movingWindow.offsetLeft;
+                    const windowWidth = movingWindow.offsetWidth;
+                    const windowHeight = movingWindow.offsetHeight;
+
+                    document.onmousemove = e => {
+                        if (!resizing) {
+                            return;
+                        }
+                        let iL = event.clientX - disX;
+			            let iT = event.clientY - disY;
+                        let maxW = left ? windowWidth +  windowLeft - 2  : window.innerWidth - movingWindow.offsetLeft - 2;
+                        let maxH = top ? windowHeight +  windowTop - 2: window.innerHeight - movingWindow.offsetTop - 2;
+                        
+                        let iW;
+                        if (left) {
+                            iW = iL + windowLeft < 2 ? windowWidth + windowLeft :windowWidth - iL;
+                            if (iL + windowLeft < 2) {
+                                iL = -windowLeft + 2;
+                            }
+                        } else {
+                            iW = handler.offsetWidth + iL;
+                        }
+                        let iH;
+                        if (top) {
+                            console.log(iT, windowTop)
+                            iH = iT + windowTop < 2 ? windowHeight + windowTop - 2 :windowHeight - iT;
+                            if (iT + windowTop < 2) {
+                                iT = -windowTop + 2;
+                            }
+                        } else {
+                            iH = handler.offsetHeight + iT;
+                        }
+                        
+                        iW < minWidth && (iW = minWidth);
+                        iW > maxW && (iW = maxW);
+                        
+                        iH < minHeight && (iH = minHeight);
+                        iH > maxH && (iH = maxH);
+                        
+                        if((left && iW === minWidth)) {
+                            if (top && iH !== minHeight) {
+                                top && (movingWindow.style.top = windowTop + iT + "px");
+                                lockY || (movingWindow.style.height = iH + "px");
+                            }
+                        } else if (top && iH === minHeight) {
+                            left && (movingWindow.style.left = windowLeft + iL + "px");
+                            lockX || (movingWindow.style.width = iW + "px");
+                        } else {
+                            left && (movingWindow.style.left = windowLeft + iL + "px");
+                            top && (movingWindow.style.top = windowTop + iT + "px");
+                            lockX || (movingWindow.style.width = iW + "px");
+                            lockY || (movingWindow.style.height = iH + "px");
+                        }
+
+                        
+                        return false;	
+                    }
+                    document.onmouseup = e => {
+                        resizing = false;
+                    }
+                }
+            }
+
+            // four edges
+            resize(document.getElementById('resize-L'), true, false, false, true);
+            resize(document.getElementById('resize-R'), false, false, false, true);
+            resize(document.getElementById('resize-T'), false, true, true, false);
+            resize(document.getElementById('resize-B'), false, false, true, false);
+
+            // four corners
+            resize(document.getElementById('resize-TL'), true, true, false, false);
+            resize(document.getElementById('resize-TR'), false, true, false, false);
+            resize(document.getElementById('resize-BL'), true, false, false, false);
+            resize(document.getElementById('resize-BR'), false, false, false, false);
+
+        }
+    </script>
+</body>
+</html>

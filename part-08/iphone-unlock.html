@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to write an iPhone unlock</title>
+    <style>
+        .wrapper {
+            margin: 10px auto;
+            width: 426px;
+            position: relative;
+        }
+        img {
+            position: absolute;
+        }
+        .lock, .unlock {
+            width: 100%;
+        }
+
+        .lock {
+            z-index: 1;
+        }
+
+        .slide {
+            z-index: 2;
+            top: 547px;
+            left: 30px;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <img src="http://fgm.cc/iphone/1.jpg" alt="" class="lock" draggable="false">
+        <img src="http://fgm.cc/iphone/2.jpg" alt="" class="unlock" draggable="false">
+        <img src="http://fgm.cc/iphone/btn.jpg" alt="" class="slide" draggable="false">
+    </div>
+    <script>
+        window.onload = () => {
+            const wrapper = document.getElementsByClassName('wrapper')[0];
+            const lockScreen = document.getElementsByClassName('lock')[0];
+            const unlockScreen = document.getElementsByClassName('unlock')[0];
+            const slideBtn = document.getElementsByClassName('slide')[0];
+            const left = 30;
+            const right = 305;
+            let dragging = false;
+            let xOffset = -1;
+            let interval;
+
+
+            // mouse down, save offset of mouse to button in x axis
+            slideBtn.onmousedown = e => {  
+                if (interval) {
+                    clearInterval(interval);
+                }
+                dragging = true;
+                xOffset = e.clientX -  wrapper.offsetLeft - slideBtn.offsetLeft;
+            }
+
+            // when mouse down, move and update button location
+            document.addEventListener('mousemove', e => {
+                if (!dragging) {
+                    return;
+                }
+                let newX = e.clientX - wrapper.offsetLeft - xOffset;
+                newX = newX < left ? left: newX;
+                if (newX > right) {
+                    unlockScreen.style.zIndex = 3;
+                } else {
+                    slideBtn.style.left = `${newX}px`;
+                }
+            });
+
+            // animation after mouse up
+            document.onmouseup = () => {
+                dragging = false;
+                if (slideBtn.offsetLeft > (left + right)/2) {
+                    // pass half, slide to end
+                    interval = setInterval(() => {
+                        if (slideBtn.offsetLeft > right) {
+                            unlockScreen.style.zIndex = 3;
+                            clearInterval(interval);
+                            return;
+                        }
+                        slideBtn.style.left = `${slideBtn.offsetLeft+10}px`;
+                    }, 30);
+                } else {
+                    // not pass half, slide back to start
+                    interval = setInterval(() => {
+                        if (slideBtn.offsetLeft <= left) {
+                            slideBtn.style.left = `${left}px`;
+                            clearInterval(interval);
+                            return;
+                        }
+                        slideBtn.style.left = `${slideBtn.offsetLeft-10}px`;
+                    }, 30);
+                }
+            }
+
+        }
+    </script>
+</body>
+</html>

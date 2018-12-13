@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make a drag box</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #3e3e3e;
+            position: relative;
+        }
+
+        .drag {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #888;
+            cursor: move;
+            position: absolute;
+            top: 100px;
+            z-index: 1;
+        }
+
+        .drag--1 {
+            left: 100px;
+            background-color: black;
+        }
+
+        .drag--2 {
+            left: 300px;
+            width: 200px;
+            height: 200px;
+            background-color: rgb(0, 0, 108);
+        }
+
+        .drag--temp{
+            opacity: 0.4;
+            z-index: 9999999;
+        }
+    </style>
+</head>
+<body>
+    <div class="drag drag--1">
+    </div>
+    <div class="drag drag--2">
+    </div>
+    <script>
+        window.onload = () => {
+            const boxes = document.getElementsByClassName('drag');
+            const box2 = document.getElementsByClassName('drag-2')[1];
+            const body = document.getElementsByTagName('body')[0];
+            let nextZIndex = 2;
+            let dragging = false;
+            let offsetX = offsetY = 0;
+            let temp;
+            let target;
+            let boxDim;
+            Array.from(boxes).forEach(el => {
+                el.addEventListener('mousedown', e => {
+                    target = el;
+                    offsetX = e.clientX - el.offsetLeft;
+                    offsetY = e.clientY - el.offsetTop;
+                    dragging = true;
+                    // assume square
+                    boxDim = parseInt(getComputedStyle(el).width.replace('px', ''))
+                            + parseInt(getComputedStyle(el).borderWidth.replace('px', '')*2);
+                    temp = document.createElement('div');
+                    temp.className = el.className;
+                    temp.classList.add('drag--temp');
+                    body.appendChild(temp);
+                });
+            })
+            document.addEventListener('mousemove', e => {
+                if (!dragging) {
+                    return;
+                }
+
+                let x_c = e.clientX - offsetX;
+                let y_c = e.clientY - offsetY;
+                x_c = x_c < 0 ? 0: x_c;
+                y_c = y_c < 0 ? 0: y_c;
+                x_c = x_c + boxDim > window.innerWidth ? window.innerWidth - boxDim: x_c;
+                y_c = y_c + boxDim > window.innerHeight ? window.innerHeight - boxDim: y_c;
+                temp.style.left = x_c + 'px';
+                temp.style.top = y_c+ 'px';
+            })
+
+            document.addEventListener('mouseup', e=> {
+                if (!temp || !dragging) {
+                    return;
+                }
+                dragging = false;
+                const resultX = temp.offsetLeft;
+                const resultY = temp.offsetTop;
+                body.removeChild(temp);
+                target.style.left = resultX + 'px';
+                target.style.top = resultY + 'px';
+                target.style.zIndex = nextZIndex++;
+            })
+            
+        }
+    </script>
+</body>
+</html>

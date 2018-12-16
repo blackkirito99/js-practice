@@ -294,9 +294,7 @@
                     resizing = true;
                     const disX = e.clientX - handler.offsetLeft;
                     const disY = e.clientY - handler.offsetTop;
-                    console.log(e.clientX,  handler.offsetLeft)
-                    console.log(e.clientY,  handler.offsetTop)
-                    console.log(disX, disY);
+
                     const windowTop = movingWindow.offsetTop;
                     const windowLeft = movingWindow.offsetLeft;
                     const windowWidth = movingWindow.offsetWidth;
@@ -310,7 +308,7 @@
 			            let iT = event.clientY - disY;
                         let maxW = left ? windowWidth +  windowLeft - 2  : window.innerWidth - movingWindow.offsetLeft - 2;
                         let maxH = top ? windowHeight +  windowTop - 2: window.innerHeight - movingWindow.offsetTop - 2;
-                        
+
                         let iW;
                         if (left) {
                             iW = iL + windowLeft < 2 ? windowWidth + windowLeft :windowWidth - iL;
@@ -332,7 +330,7 @@
                         }
                         
                         iW < minWidth && (iW = minWidth);
-                        iW > maxW && (iW = maxW);
+                        iW > maxW && (iW = maxW); 
                         
                         iH < minHeight && (iH = minHeight);
                         iH > maxH && (iH = maxH);

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Practice to make mac docker</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+
+        .docker {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .docker__item {
+            width: 100px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .docker__item:not(:first-child) {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="docker">
+        <img src="../part-02/img/pic-1.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-2.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-3.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-4.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-5.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-6.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-7.png" alt="" class="docker__item">
+        <img src="../part-02/img/pic-8.png" alt="" class="docker__item">
+    </div>
+
+    <script>
+        window.onload = () => {
+            const dock = document.getElementsByClassName('docker')[0];
+            const items = document.getElementsByClassName('docker__item');
+            const itemDefaultRadius = items[0].offsetWidth * 2;
+            Array.from(items).forEach(el => {
+                console.log(el.offsetLeft, el.offsetLeft)
+            });
+            document.onmousemove = e => {
+                Array.from(items).forEach(el => {
+                    const a = e.clientX - el.offsetLeft - el.offsetWidth/2;
+                    const b = e.clientY - el.offsetTop - dock.offsetTop - el.offsetHeight/2;
+                    let scale = 1 - Math.sqrt(a*a + b*b) / 300;
+                    if ( scale < 0.5) scale = 0.5;
+                    el.style.width = itemDefaultRadius * scale + 'px';
+                });
+            }
+        }
+    </script>
+</body>
+</html>
